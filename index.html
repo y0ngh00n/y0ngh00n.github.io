@@ -229,6 +229,136 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://y0ngh00n.github.io/2018/03/25/linux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="y0ngh00n">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Esse Quam Videri">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/25/linux/" itemprop="url">linux</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-25T16:01:40+09:00">
+                2018-03-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="리눅스-하드웨어-정보-확인"><a href="#리눅스-하드웨어-정보-확인" class="headerlink" title="리눅스 하드웨어 정보 확인"></a>리눅스 하드웨어 정보 확인</h2><h3 id="1-CPU-정보-확인"><a href="#1-CPU-정보-확인" class="headerlink" title="1) CPU 정보 확인"></a>1) CPU 정보 확인</h3><pre><code class="bash">$ cat /proc/cpuinfo | grep <span class="string">"model name"</span> | head -1 
+</code></pre>
+<h3 id="2-메모리-정보-확인"><a href="#2-메모리-정보-확인" class="headerlink" title="2) 메모리 정보 확인"></a>2) 메모리 정보 확인</h3><pre><code class="bash">$ cat /proc/meminfo  
+</code></pre>
+<h3 id="3-디스크-용량-확인"><a href="#3-디스크-용량-확인" class="headerlink" title="3) 디스크 용량 확인"></a>3) 디스크 용량 확인</h3><pre><code class="bash">$ df -h
+</code></pre>
+<h3 id="4-PCI-정보-확인"><a href="#4-PCI-정보-확인" class="headerlink" title="4) PCI 정보 확인"></a>4) PCI 정보 확인</h3><pre><code class="bash">$ lspci            /* 모든 PCI 정보 출력 */
+$ lspci | grep RAID    /* RAID 모델명 확인 */
+$ lspci | grep Ethernet    /* 랜카드 모델명 확인 */
+$ lspci | grep VGA             /* 그래픽 모델명 확인 */
+</code></pre>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://y0ngh00n.github.io/2018/03/22/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -390,7 +520,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
