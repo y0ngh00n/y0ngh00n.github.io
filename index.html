@@ -229,6 +229,239 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://y0ngh00n.github.io/2018/04/13/dlb-ch7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="y0ngh00n">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="今我異昨我">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/13/dlb-ch7/" itemprop="url">Ch7_Regularization</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-13T16:46:45+09:00">
+                2018-04-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Study/" itemprop="url" rel="index">
+                    <span itemprop="name">Study</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Study/DeepLearning/" itemprop="url" rel="index">
+                    <span itemprop="name">DeepLearning</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="용어-정리"><a href="#용어-정리" class="headerlink" title="용어 정리"></a>용어 정리</h3><ol>
+<li>Generalization: 일반화, 테스트 데이터의 정확도.</li>
+<li>Normalization: 정규화, 속성의 단위들을 일정 구간으로 통일 시키는 것. 최대최소정규화<br>-&gt; 딥러닝은 normalization이 중요하다. Drastic한 성능 증가를 볼 수 있다.</li>
+<li>Standardization: 표준화, 표준정규화</li>
+<li>Regularization(제약): generalization error(test error)를 줄이기 위한 어떠한 수정전략들. 즉, overfitting을 방지하기 위한 제약들.</li>
+</ol>
+<h3 id="intro"><a href="#intro" class="headerlink" title="intro"></a>intro</h3><ol>
+<li>“공짜점심은 없다 이론”을 통해 학습 알고리즘 뿐만 아니라 regularization 또한 특정 데이터에 따라 방법이 다르게 적용된다.</li>
+<li>딥러닝에서의 대부분의 regularization 전략은 estimators를 regularizing 하는 것이다. </li>
+<li>estimator를 regularizing한다는 것은 bias가 증가하는데 비해 variance가 줄어드는 상충관계가 있다.</li>
+<li>Bias와 variance는 왜 상충관계가 있는가?<br>cf)<a href="https://www.youtube.com/watch?v=FOu8bXV15F8&amp;feature=youtu.be&amp;list=PL0oFI08O71gKEXITQ7OG2SCCXkrtid7Fq" target="_blank" rel="noopener">https://www.youtube.com/watch?v=FOu8bXV15F8&amp;feature=youtu.be&amp;list=PL0oFI08O71gKEXITQ7OG2SCCXkrtid7Fq</a><br> 트레이닝 할 때 Error = bias + variance 이다.<br>Variance: 예측값이 퍼져있는 정도<br>Bias: 예측값과 실제값의 차이 정도<br>Variance가 크다 =&gt; overfitting이 크다. (training accuracy와 test accuracy의 차이가 큰 것)<br>prediction이 일정하다. =&gt; variance가 작다.<br>Bias가 크다 =&gt; underfitting (training accuracy가 낮은 것)</li>
+</ol>
+<h2 id="1-Parameter-Norm-Penalties"><a href="#1-Parameter-Norm-Penalties" class="headerlink" title="1. Parameter Norm Penalties"></a>1. Parameter Norm Penalties</h2><ol>
+<li>Objective function에 norm penalty를 더하면서 모델의 설명력을 제한하는 방법이다. </li>
+<li>W*: unregularization의 최적점</li>
+<li>W~: regularization의 접점</li>
+<li>머신러닝은 일반적으로 posterior를 구하는 것인데 posterior = likelihood * prior(gaussian dist 가정)</li>
+<li>Regularizer는 이러한 prior를 고려하는 것이다. = L2 norm </li>
+<li><img src="/image/dlb/dlb_ch7_1.jpg" alt=""></li>
+<li>∂ : regularization strength</li>
+<li>L2 regularization<br>a.    Weight가 큰 변수일수록 그 영향을 낮춘다. </li>
+<li>L1 regularization<br>a.    L1 regularization의 효과<br>  ①    Sparse represenation<br>  ②    L1은 lasso regression으로 절대값 함수에 의해 마름모꼴 즉, 꼭지점과 직선이 있는 도형이다.<br>  ③    이러한 상황에서 weight의 dimension이 커질 때, 꼭지점에 접하는 경우, 즉 weight가 0인 경우가 많아질 수 있다.<br>  ④    이런 것을 sparse representation이라고 한다.<br>b.    L2 와의 차이<br>  ①    One consequence of this form of the gradient is that we will not necessarily see clean algebraic solutions to quadratic approximations of J as we did for L2 regularization.</li>
+<li><img src="/image/dlb/dlb_ch7_2.jpg" alt=""></li>
+</ol>
+<h2 id="2-Norm-Penalties-as-Constrained-Optimization"><a href="#2-Norm-Penalties-as-Constrained-Optimization" class="headerlink" title="2. Norm Penalties as Constrained Optimization"></a>2. Norm Penalties as Constrained Optimization</h2><h2 id="3-Regularization-and-Under-Constrained-Problems"><a href="#3-Regularization-and-Under-Constrained-Problems" class="headerlink" title="3. Regularization and Under-Constrained Problems"></a>3. Regularization and Under-Constrained Problems</h2><h2 id="4-Dataset-Augmentation"><a href="#4-Dataset-Augmentation" class="headerlink" title="4. Dataset Augmentation"></a>4. Dataset Augmentation</h2><ol>
+<li>데이터가 어떻게 생겼는지에 따라 방법이 다르다.<br>a.    Ex) 이미지가 사자와 숫자가 있다면 숫자는 회전을 하는 방법은 적절하지 않다.</li>
+<li>Generalization을 높이는 가장 좋은 방법은 train data를 늘리는 것이다.</li>
+<li>Training data로부터 Fake data를 늘리는 data augmentation은 특정한 분류 문제에서만 효과적이다. 바로, object recognition 분야.</li>
+<li>Transformation 방법은 image translation, rotating, scaling등이 있다.<br>a.    Translation: 이미지 이동. 왼쪽 위, 오른쪽 위 등ㅇ</li>
+<li>Speech recognition에서도 data augmentation은  효과적이다. </li>
+<li>뉴럴넷 모델 Input으로 noise를 주입하는 것도 방법이다. </li>
+</ol>
+<h2 id="5-Noise-Robustness"><a href="#5-Noise-Robustness" class="headerlink" title="5. Noise Robustness"></a>5. Noise Robustness</h2><ol>
+<li>일반적으로 모델의 hidden unit에 노이즈를 주입하면 shrinking paramter보다 강력해진다.</li>
+<li>Shrinking paramters?</li>
+<li>Injecting Noise at the Output Targets<br>a.    많은 데이터 셋들은 일정 부분 잘못된 y값들이 존재한다.<br>b.    이럴 경우에 y(label)에 노이즈를 명시함으로 maximize logp(y|x)를 달성하도록 도운다.<br>c.    노이즈, 1- 노이즈<br>d.    Label smoothing<br>  ①    예를 들어 Softmax 함수에서 k개의 label이 존재할때, 노이즈/k-1과 1-노이즈로</li>
+</ol>
+<h2 id="6-Semi-Supervised-Learning"><a href="#6-Semi-Supervised-Learning" class="headerlink" title="6. Semi-Supervised Learning"></a>6. Semi-Supervised Learning</h2><ol>
+<li>Unlabeled 데이터와 labeled데이터가 섞인 데이터셋에서 학습하는 것</li>
+</ol>
+<h2 id="7-Multi-Task-Learning"><a href="#7-Multi-Task-Learning" class="headerlink" title="7. Multi-Task Learning"></a>7. Multi-Task Learning</h2><ol>
+<li>Pooling the examples arising out of several tasks.</li>
+<li>Main idea: among the factors that explain the variations observed in the data associated with the different tasks, some are shared across two or more tasks.</li>
+</ol>
+<h2 id="8-Early-Stopping"><a href="#8-Early-Stopping" class="headerlink" title="8. Early Stopping"></a>8. Early Stopping</h2><ol>
+<li>Overfitting을 방지하기 위해 validation set error가 증가하는 시점에 학습을 끊는 것.</li>
+<li>모든 머신러닝 기법에 적용할 수 있는 일반적인 기법으로 혼자 쓰이거나 다른 기법과 혼용 가능하다.</li>
+<li>학습을 미리 끊음으로 학습 과정의 비용을 줄일 수 있다.</li>
+<li>L2 penalty인 weight decay와 비슷한 결과를 갖는다</li>
+<li><img src="/image/dlb/dlb_ch7_3.jpg" alt=""></li>
+</ol>
+<h2 id="9-Parameter-Tying-and-Parameter-Sharing"><a href="#9-Parameter-Tying-and-Parameter-Sharing" class="headerlink" title="9. Parameter Tying and Parameter Sharing"></a>9. Parameter Tying and Parameter Sharing</h2><ol>
+<li>Parameter tying = 다른 파라미터들을 같도록</li>
+<li>Parameter sharing = force set of parameters to be equal<br>a.    같은 output을 내는 연관 모델들의 파라미터는 비슷할 것이다.<br>b.    장점으로는 메모리에 올리는 파라미터 셋 공간을 줄일 수 있다. </li>
+<li>CNN에서의 parameter sharing<br>a.    한 레이어 에서 파라미터들은 같이 나눠서 쓰도록한다.</li>
+</ol>
+<h2 id="10-Sparse-Representations"><a href="#10-Sparse-Representations" class="headerlink" title="10. Sparse Representations"></a>10. Sparse Representations</h2><ol>
+<li>L1 penalty의 sparse parameterization과 구분하여야한다.<br>a.    Parameter의 대부분이 sparse한 것</li>
+<li>Input x에 대해 sparse하게 representation 하는 것이다.</li>
+<li><img src="/image/dlb/dlb_ch7_4.jpg" alt=""></li>
+</ol>
+<h2 id="11-Bagging-and-Other-Ensemble-Methods"><a href="#11-Bagging-and-Other-Ensemble-Methods" class="headerlink" title="11. Bagging and Other Ensemble Methods"></a>11. Bagging and Other Ensemble Methods</h2><ol>
+<li>Bagging = bootstrap aggregating<br>a.    모델을 여러 개 결합하는 것<br>b.    각 모델의 test set 결과에 대하여 majority voting<br>c.    Model averaging의 한 방법으로 각각 다른 모델은 각각 다른 에러를 보여주므로써 generalization 성능을 높인다.</li>
+</ol>
+<h2 id="12-Dropout"><a href="#12-Dropout" class="headerlink" title="12. Dropout"></a>12. Dropout</h2><ol>
+<li>Base network로부터 output unit이 아닌 곳을 삭제한 각기 다른 ensemble 모델을 구현한다.</li>
+<li><img src="/image/dlb/dlb_ch7_5.jpg" alt=""></li>
+<li>K개의 다른 데이터 셋에서 나온 k개의 모델 효과를 얻는 것이 drop out의 목표이다.</li>
+<li>다른 regularization 방법보다 비용도 안크고 성능도 매우 좋다.<br>a.    Very computationally cheap<br>b.    모델이나 학습 절차에 영향을 받지 않는다.</li>
+<li>Ans) coadaptation을 회피한다.<br>a.    GD를 하면서 gradient값이 같으면 그 노드는 같은 정보를 제공하는 상황이 발생하기 때문에 이를 드롭아웃을 통해 노드의 전달을 끊음으로 coadaptation을 회피한다.</li>
+<li>Test할 때에는 1-dropout probability를 곱해서 scaling한다.<br>a.    다른 스킬 : train할 때 dropout probability만큼 곱해서 학습</li>
+</ol>
+<h2 id="13-Adversarial-Training"><a href="#13-Adversarial-Training" class="headerlink" title="13. Adversarial Training"></a>13. Adversarial Training</h2><ol>
+<li>NN의 문제: 적대적인 노이즈가 끼면 아예 다른 이미지로 판단.<br>a.    이미지에 대한 지식: 이미지는 큰 디멘션을 갖지만 그 중 정보를 담고 있는 픽셀들은 sparse하다.<br>b.    즉, 이미지를 구성하는 feature는 sparse하게 정해져있다.<br>c.    랜덤으로 픽셀을 찍는다고 해서 이미지가 되는 것이 아니다. </li>
+<li>X를 크게 바꾸지 않으면서, y가 크게 바뀌는 상황을 학습</li>
+<li>Noise를 제거하도록 학습</li>
+</ol>
+<h2 id="14-Tangent-Distance-Tangent-Prop-and-Manifold-Tangent-Classifiers"><a href="#14-Tangent-Distance-Tangent-Prop-and-Manifold-Tangent-Classifiers" class="headerlink" title="14. Tangent Distance, Tangent Prop, and Manifold Tangent Classifiers"></a>14. Tangent Distance, Tangent Prop, and Manifold Tangent Classifiers</h2><ol>
+<li>Manifold</li>
+<li>Tangent: manifold의 접선</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://y0ngh00n.github.io/2018/04/01/dlb-ch6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -333,17 +566,17 @@
       
         
           
-            <h1 id="Feedforward"><a href="#Feedforward" class="headerlink" title="Feedforward"></a>Feedforward</h1><ol>
+            <h3 id="Feedforward"><a href="#Feedforward" class="headerlink" title="Feedforward"></a>Feedforward</h3><ol>
 <li>No feedback connections</li>
 <li>피드백이 있다면 RNN이다. </li>
 <li>linear model의 한계를 극복하려고 생겨났다.</li>
 <li>선형 모델의 한계는 model capacity가 linear function에 국한되어있고, two input변수에 안맞는다는 것.</li>
 </ol>
-<h2 id="XOR"><a href="#XOR" class="headerlink" title="XOR"></a>XOR</h2><ol>
+<h2 id="1-XOR"><a href="#1-XOR" class="headerlink" title="1. XOR"></a>1. XOR</h2><ol>
 <li>Linear model(단층 퍼셉트론)로는 XOR함수를 풀 수 없다.</li>
-<li><img src="/image/dlb_ch6_1.png" alt=""></li>
+<li><img src="/image/dlb/dlb_ch6_1.png" alt=""></li>
 </ol>
-<h2 id="Gradient-Based-Learning"><a href="#Gradient-Based-Learning" class="headerlink" title="Gradient-Based Learning"></a>Gradient-Based Learning</h2><ol>
+<h2 id="2-Gradient-Based-Learning"><a href="#2-Gradient-Based-Learning" class="headerlink" title="2. Gradient-Based Learning"></a>2. Gradient-Based Learning</h2><ol>
 <li>뉴럴넷을 학습시키는 것은 기존의 머신 러닝 모델에서 사용하는 gradient descent와 같다.</li>
 <li>가장 큰 다른점은 뉴럴넷의 nonlinearity가 손실함수의 non convex를 야기한다는 것이다? <blockquote>
 <p>Ans) 기존 머신 러닝 optimization 방법은 linear programming등 여러 가지가 있다. 이는 모두 convex가 보장된다는 전제가 있다. (여기서, convex는 concave(위로 볼록)을 구분하지 않는다.) 하지만 nonlinearity는 non convex를 의미한다. 예를 들어, 여러 지점의 볼록성을 가질 수 있는데 이때를 saddle point라고 한다. 이러한 saddle point는 기존 optimization으로 해결 되지 않는다.</p>
@@ -362,7 +595,7 @@
 </ol>
 </li>
 </ol>
-<h2 id="Hidden-units"><a href="#Hidden-units" class="headerlink" title="Hidden units"></a>Hidden units</h2><ul>
+<h2 id="3-Hidden-units"><a href="#3-Hidden-units" class="headerlink" title="3. Hidden units"></a>3. Hidden units</h2><ul>
 <li>이론적으로 뚜렷한 가이드라인이 아직 없다.</li>
 <li>activation function: threshold보다 클 때에만 뉴런 활성화</li>
 </ul>
@@ -388,11 +621,11 @@
 </li>
 <li>others</li>
 </ol>
-<h2 id="Architecture-design"><a href="#Architecture-design" class="headerlink" title="Architecture design"></a>Architecture design</h2><ol>
+<h2 id="4-Architecture-design"><a href="#4-Architecture-design" class="headerlink" title="4. Architecture design"></a>4. Architecture design</h2><ol>
 <li><p>Universial approximation properties and depth</p>
 <ol>
 <li>Universal approximation theorem<br>a.    1개의 hidden layer를 가진 뉴럴넷으로 어떤 함수든 근사시킬 수 있다.<br>b.    Deep 모델을 shallow로 변환하면 parameter 수가 exponential하게 증가한다.</li>
-<li>Deep model을 하는 이유<br>a.    같은 parameter 개수라도 path가 복잡해진다.<br>b.  <img src="/image/dlb_ch6_2.png" alt=""></li>
+<li>Deep model을 하는 이유<br>a.    같은 parameter 개수라도 path가 복잡해진다.<br>b.  <img src="/image/dlb/dlb_ch6_2.png" alt=""></li>
 <li>하나의 커다란 유닛을 가진 single layer보다 deep한 layer 모델이 유닛수를 적게하면서 더 나은 함수를 근사하고, generalization error 또한 줄일 수 있다. 왜?<blockquote>
 <p>Ans) Generalization: new 데이터가 들어왔 때 설명력이 얼마나 되는가의 수치</p>
 </blockquote>
@@ -413,7 +646,7 @@
 </ol>
 </li>
 </ol>
-<h2 id="Back-propagation-and-other-differentiation-algorithms"><a href="#Back-propagation-and-other-differentiation-algorithms" class="headerlink" title="Back-propagation and other differentiation algorithms"></a>Back-propagation and other differentiation algorithms</h2><ol>
+<h2 id="5-Back-propagation-and-other-differentiation-algorithms"><a href="#5-Back-propagation-and-other-differentiation-algorithms" class="headerlink" title="5. Back-propagation and other differentiation algorithms"></a>5. Back-propagation and other differentiation algorithms</h2><ol>
 <li>Backpropagation<br>i.    Gradient를 계산한다.<br>ii.    단순하고 비용이 적게 든다.</li>
 <li>Computational graphs<br>i.    계산과정을 그래프로 나타낸 것</li>
 <li>Chain rule of calculus<br>i.    Recursively applying the chain rule to obtain backprop<br>ii.    Backprop computation in fully-connected MLP<br>iii.    Symbol-to-symbol derivatives<br>iv.    General backprop</li>
@@ -985,7 +1218,7 @@ $ lspci | grep VGA             /* 그래픽 모델명 확인 */
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1007,7 +1240,7 @@ $ lspci | grep VGA             /* 그래픽 모델명 확인 */
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>

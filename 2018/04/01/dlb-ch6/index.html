@@ -79,21 +79,21 @@
 
 
 
-<meta name="description" content="Feedforward No feedback connections 피드백이 있다면 RNN이다.  linear model의 한계를 극복하려고 생겨났다. 선형 모델의 한계는 model capacity가 linear function에 국한되어있고, two input변수에 안맞는다는 것.  XOR Linear model(단층 퍼셉트론)로는 XOR함수를 풀 수 없다.">
+<meta name="description" content="Feedforward No feedback connections 피드백이 있다면 RNN이다.  linear model의 한계를 극복하려고 생겨났다. 선형 모델의 한계는 model capacity가 linear function에 국한되어있고, two input변수에 안맞는다는 것.  1. XOR Linear model(단층 퍼셉트론)로는 XOR함수를 풀 수">
 <meta name="keywords" content="DLB,feedforward">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ch6_Deep Feedforward Networks">
 <meta property="og:url" content="https://y0ngh00n.github.io/2018/04/01/dlb-ch6/index.html">
 <meta property="og:site_name" content="今我異昨我">
-<meta property="og:description" content="Feedforward No feedback connections 피드백이 있다면 RNN이다.  linear model의 한계를 극복하려고 생겨났다. 선형 모델의 한계는 model capacity가 linear function에 국한되어있고, two input변수에 안맞는다는 것.  XOR Linear model(단층 퍼셉트론)로는 XOR함수를 풀 수 없다.">
+<meta property="og:description" content="Feedforward No feedback connections 피드백이 있다면 RNN이다.  linear model의 한계를 극복하려고 생겨났다. 선형 모델의 한계는 model capacity가 linear function에 국한되어있고, two input변수에 안맞는다는 것.  1. XOR Linear model(단층 퍼셉트론)로는 XOR함수를 풀 수">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://y0ngh00n.github.io/image/dlb_ch6_1.png">
-<meta property="og:image" content="https://y0ngh00n.github.io/image/dlb_ch6_2.png">
-<meta property="og:updated_time" content="2018-04-01T12:34:45.851Z">
+<meta property="og:image" content="https://y0ngh00n.github.io/image/dlb/dlb_ch6_1.png">
+<meta property="og:image" content="https://y0ngh00n.github.io/image/dlb/dlb_ch6_2.png">
+<meta property="og:updated_time" content="2018-04-13T08:19:32.904Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ch6_Deep Feedforward Networks">
-<meta name="twitter:description" content="Feedforward No feedback connections 피드백이 있다면 RNN이다.  linear model의 한계를 극복하려고 생겨났다. 선형 모델의 한계는 model capacity가 linear function에 국한되어있고, two input변수에 안맞는다는 것.  XOR Linear model(단층 퍼셉트론)로는 XOR함수를 풀 수 없다.">
-<meta name="twitter:image" content="https://y0ngh00n.github.io/image/dlb_ch6_1.png">
+<meta name="twitter:description" content="Feedforward No feedback connections 피드백이 있다면 RNN이다.  linear model의 한계를 극복하려고 생겨났다. 선형 모델의 한계는 model capacity가 linear function에 국한되어있고, two input변수에 안맞는다는 것.  1. XOR Linear model(단층 퍼셉트론)로는 XOR함수를 풀 수">
+<meta name="twitter:image" content="https://y0ngh00n.github.io/image/dlb/dlb_ch6_1.png">
 
 
 
@@ -336,17 +336,17 @@
       
 
       
-        <h1 id="Feedforward"><a href="#Feedforward" class="headerlink" title="Feedforward"></a>Feedforward</h1><ol>
+        <h3 id="Feedforward"><a href="#Feedforward" class="headerlink" title="Feedforward"></a>Feedforward</h3><ol>
 <li>No feedback connections</li>
 <li>피드백이 있다면 RNN이다. </li>
 <li>linear model의 한계를 극복하려고 생겨났다.</li>
 <li>선형 모델의 한계는 model capacity가 linear function에 국한되어있고, two input변수에 안맞는다는 것.</li>
 </ol>
-<h2 id="XOR"><a href="#XOR" class="headerlink" title="XOR"></a>XOR</h2><ol>
+<h2 id="1-XOR"><a href="#1-XOR" class="headerlink" title="1. XOR"></a>1. XOR</h2><ol>
 <li>Linear model(단층 퍼셉트론)로는 XOR함수를 풀 수 없다.</li>
-<li><img src="/image/dlb_ch6_1.png" alt=""></li>
+<li><img src="/image/dlb/dlb_ch6_1.png" alt=""></li>
 </ol>
-<h2 id="Gradient-Based-Learning"><a href="#Gradient-Based-Learning" class="headerlink" title="Gradient-Based Learning"></a>Gradient-Based Learning</h2><ol>
+<h2 id="2-Gradient-Based-Learning"><a href="#2-Gradient-Based-Learning" class="headerlink" title="2. Gradient-Based Learning"></a>2. Gradient-Based Learning</h2><ol>
 <li>뉴럴넷을 학습시키는 것은 기존의 머신 러닝 모델에서 사용하는 gradient descent와 같다.</li>
 <li>가장 큰 다른점은 뉴럴넷의 nonlinearity가 손실함수의 non convex를 야기한다는 것이다? <blockquote>
 <p>Ans) 기존 머신 러닝 optimization 방법은 linear programming등 여러 가지가 있다. 이는 모두 convex가 보장된다는 전제가 있다. (여기서, convex는 concave(위로 볼록)을 구분하지 않는다.) 하지만 nonlinearity는 non convex를 의미한다. 예를 들어, 여러 지점의 볼록성을 가질 수 있는데 이때를 saddle point라고 한다. 이러한 saddle point는 기존 optimization으로 해결 되지 않는다.</p>
@@ -365,7 +365,7 @@
 </ol>
 </li>
 </ol>
-<h2 id="Hidden-units"><a href="#Hidden-units" class="headerlink" title="Hidden units"></a>Hidden units</h2><ul>
+<h2 id="3-Hidden-units"><a href="#3-Hidden-units" class="headerlink" title="3. Hidden units"></a>3. Hidden units</h2><ul>
 <li>이론적으로 뚜렷한 가이드라인이 아직 없다.</li>
 <li>activation function: threshold보다 클 때에만 뉴런 활성화</li>
 </ul>
@@ -391,11 +391,11 @@
 </li>
 <li>others</li>
 </ol>
-<h2 id="Architecture-design"><a href="#Architecture-design" class="headerlink" title="Architecture design"></a>Architecture design</h2><ol>
+<h2 id="4-Architecture-design"><a href="#4-Architecture-design" class="headerlink" title="4. Architecture design"></a>4. Architecture design</h2><ol>
 <li><p>Universial approximation properties and depth</p>
 <ol>
 <li>Universal approximation theorem<br>a.    1개의 hidden layer를 가진 뉴럴넷으로 어떤 함수든 근사시킬 수 있다.<br>b.    Deep 모델을 shallow로 변환하면 parameter 수가 exponential하게 증가한다.</li>
-<li>Deep model을 하는 이유<br>a.    같은 parameter 개수라도 path가 복잡해진다.<br>b.  <img src="/image/dlb_ch6_2.png" alt=""></li>
+<li>Deep model을 하는 이유<br>a.    같은 parameter 개수라도 path가 복잡해진다.<br>b.  <img src="/image/dlb/dlb_ch6_2.png" alt=""></li>
 <li>하나의 커다란 유닛을 가진 single layer보다 deep한 layer 모델이 유닛수를 적게하면서 더 나은 함수를 근사하고, generalization error 또한 줄일 수 있다. 왜?<blockquote>
 <p>Ans) Generalization: new 데이터가 들어왔 때 설명력이 얼마나 되는가의 수치</p>
 </blockquote>
@@ -416,7 +416,7 @@
 </ol>
 </li>
 </ol>
-<h2 id="Back-propagation-and-other-differentiation-algorithms"><a href="#Back-propagation-and-other-differentiation-algorithms" class="headerlink" title="Back-propagation and other differentiation algorithms"></a>Back-propagation and other differentiation algorithms</h2><ol>
+<h2 id="5-Back-propagation-and-other-differentiation-algorithms"><a href="#5-Back-propagation-and-other-differentiation-algorithms" class="headerlink" title="5. Back-propagation and other differentiation algorithms"></a>5. Back-propagation and other differentiation algorithms</h2><ol>
 <li>Backpropagation<br>i.    Gradient를 계산한다.<br>ii.    단순하고 비용이 적게 든다.</li>
 <li>Computational graphs<br>i.    계산과정을 그래프로 나타낸 것</li>
 <li>Chain rule of calculus<br>i.    Recursively applying the chain rule to obtain backprop<br>ii.    Backprop computation in fully-connected MLP<br>iii.    Symbol-to-symbol derivatives<br>iv.    General backprop</li>
@@ -463,6 +463,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/13/dlb-ch7/" rel="prev" title="Ch7_Regularization">
+                Ch7_Regularization <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -539,7 +543,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -561,7 +565,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
@@ -594,7 +598,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Feedforward"><span class="nav-number">1.</span> <span class="nav-text">Feedforward</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#XOR"><span class="nav-number">1.1.</span> <span class="nav-text">XOR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gradient-Based-Learning"><span class="nav-number">1.2.</span> <span class="nav-text">Gradient-Based Learning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hidden-units"><span class="nav-number">1.3.</span> <span class="nav-text">Hidden units</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Architecture-design"><span class="nav-number">1.4.</span> <span class="nav-text">Architecture design</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Back-propagation-and-other-differentiation-algorithms"><span class="nav-number">1.5.</span> <span class="nav-text">Back-propagation and other differentiation algorithms</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Feedforward"><span class="nav-number">1.</span> <span class="nav-text">Feedforward</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-XOR"><span class="nav-number"></span> <span class="nav-text">1. XOR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Gradient-Based-Learning"><span class="nav-number"></span> <span class="nav-text">2. Gradient-Based Learning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Hidden-units"><span class="nav-number"></span> <span class="nav-text">3. Hidden units</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Architecture-design"><span class="nav-number"></span> <span class="nav-text">4. Architecture design</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Back-propagation-and-other-differentiation-algorithms"><span class="nav-number"></span> <span class="nav-text">5. Back-propagation and other differentiation algorithms</span></a></div>
             
 
           </div>
