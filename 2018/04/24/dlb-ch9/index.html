@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="DLB,CNN," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="intro 뉴럴넷에서 말하는 convolution operation은 전통적으로 공학과 수학에서 쓰이는 convolution 연산과 조금은 다르다. 이 장에서는 CNN이 제공하는 툴들에 대해 설명하고, 상황에 따른 적합한 툴을 선택하는 것은 11장에서 하도록 한다.  1. The Convolution Operation Kernel = filter Outpu">
+<meta name="keywords" content="DLB,CNN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ch9_Convolutional Networks">
+<meta property="og:url" content="https://y0ngh00n.github.io/2018/04/24/dlb-ch9/index.html">
+<meta property="og:site_name" content="今我異昨我">
+<meta property="og:description" content="intro 뉴럴넷에서 말하는 convolution operation은 전통적으로 공학과 수학에서 쓰이는 convolution 연산과 조금은 다르다. 이 장에서는 CNN이 제공하는 툴들에 대해 설명하고, 상황에 따른 적합한 툴을 선택하는 것은 11장에서 하도록 한다.  1. The Convolution Operation Kernel = filter Outpu">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://y0ngh00n.github.io/image/dlb/dlb_ch9_1.PNG">
+<meta property="og:image" content="https://y0ngh00n.github.io/image/dlb/dlb_ch9_2.PNG">
+<meta property="og:image" content="https://y0ngh00n.github.io/image/dlb/dlb_ch9_3.PNG">
+<meta property="og:image" content="https://y0ngh00n.github.io/image/dlb/dlb_ch9_4.PNG">
+<meta property="og:image" content="https://y0ngh00n.github.io/image/dlb/dlb_ch9_5.PNG">
+<meta property="og:updated_time" content="2018-04-24T07:59:03.495Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ch9_Convolutional Networks">
+<meta name="twitter:description" content="intro 뉴럴넷에서 말하는 convolution operation은 전통적으로 공학과 수학에서 쓰이는 convolution 연산과 조금은 다르다. 이 장에서는 CNN이 제공하는 툴들에 대해 설명하고, 상황에 따른 적합한 툴을 선택하는 것은 11장에서 하도록 한다.  1. The Convolution Operation Kernel = filter Outpu">
+<meta name="twitter:image" content="https://y0ngh00n.github.io/image/dlb/dlb_ch9_1.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://y0ngh00n.github.io/2018/04/24/dlb-ch9/"/>
+
+
+
+
+
+  <title>Ch9_Convolutional Networks | 今我異昨我</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">今我異昨我</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://y0ngh00n.github.io/2018/04/24/dlb-ch9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="y0ngh00n">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="今我異昨我">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Ch9_Convolutional Networks</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-24T16:30:09+09:00">
+                2018-04-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Study/" itemprop="url" rel="index">
+                    <span itemprop="name">Study</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Study/DeepLearning/" itemprop="url" rel="index">
+                    <span itemprop="name">DeepLearning</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="intro"><a href="#intro" class="headerlink" title="intro"></a>intro</h3><ol>
+<li>뉴럴넷에서 말하는 convolution operation은 전통적으로 공학과 수학에서 쓰이는 convolution 연산과 조금은 다르다.</li>
+<li>이 장에서는 CNN이 제공하는 툴들에 대해 설명하고, 상황에 따른 적합한 툴을 선택하는 것은 11장에서 하도록 한다.</li>
+</ol>
+<h2 id="1-The-Convolution-Operation"><a href="#1-The-Convolution-Operation" class="headerlink" title="1. The Convolution Operation"></a>1. The Convolution Operation</h2><ol>
+<li>Kernel = filter</li>
+<li>Output = feature map</li>
+</ol>
+<h2 id="2-Motivation"><a href="#2-Motivation" class="headerlink" title="2. Motivation"></a>2. Motivation</h2><ol>
+<li>CNN의 세 가지 idea들<br>a. Sparse interactions(sparse connectivity, sparse weights)<br>  ①    Kernel size를 input size보다 작게 만들면서 convolution 네트워크를 구성한다.<br>  ②    큰 픽셀의 Input에서 의미있는 feature들을 작은 픽셀단위로 찾을 수 있다.<br>  ③    효율성<pre><code>i.    Parameter의 감소 -&gt; 메모리 감소
+ii.    Operation의 감소
+</code></pre>  ④    모델의 layer가 deep해지면 directly가 아니더라도 indirectly하게 거의 모든 input unit과 연결된 효과가 있다.<br>  <img src="/image/dlb/dlb_ch9_1.PNG" alt=""><br>b. Parameter sharing(tied weight)<br>  ①    한 input layer에서의 weight를 공유한다.<br>  ②    Sparse connectivity와 parameter sharing은 edge detecting에 효과적이다.<br>c. Equivalent representations<br>  ①    Equivalent: input이 변하면 output도 같이 변하는 것, f(g(x)) = g(f(x))<br>  ②    Input image에 대해 convolution하고 transform한 것과, transform먼저 하고 convolution한 결과가 같다.</li>
+</ol>
+<h2 id="3-Pooling"><a href="#3-Pooling" class="headerlink" title="3. Pooling"></a>3. Pooling</h2><ol>
+<li>전형적인 CNN은 3단계를 거친다.<br>a.    Convolution stage<br>  ①    Produce a set of linear functions<br>b.    Detector stage<br>  ①    Non-linear Activation function<br>c.    Pooling stage<br>  ①    Pooling functions</li>
+<li>Pooling functions<br>a.    특정 위치의 output을 주변 결과들의 통계요약으로 대체하는 것<br>b.    방법<br>  ①    Max pooling<br>  ②    Average pooling<br>  ③    L2 norm of a rectangular neighborhood<br>  ④    Weighted average on the distance from the central pixel</li>
+</ol>
+<h2 id="4-Convolution-and-Pooling-as-an-Infinitely-Strong-Prior"><a href="#4-Convolution-and-Pooling-as-an-Infinitely-Strong-Prior" class="headerlink" title="4. Convolution and Pooling as an Infinitely Strong Prior"></a>4. Convolution and Pooling as an Infinitely Strong Prior</h2><ol>
+<li>Prior probability distribution<br>a.    What models are resonable, before we have seen any data.</li>
+<li>Prior<br>a.    Weak: high entropy, high variance<br>b.    Strong: low entropy, low variances</li>
+</ol>
+<h2 id="5-Variants-of-the-Basic-Convolution-Function"><a href="#5-Variants-of-the-Basic-Convolution-Function" class="headerlink" title="5. Variants of the Basic Convolution Function"></a>5. Variants of the Basic Convolution Function</h2><ol>
+<li>NN의 convolution은 수학의 convolution 연산과는 다르다.<br>a.    Convolution in parallel<br>  ①    하나의 kernel은 하나의 feature만 추출할 수 있기 때문에 많은 convolution을 통해 많은 feature를 추출해야한다.<br>b.    Grid of vector-valuedd observations<br>  ①    컬러 이미지는 RGB와 같은 3D tensor이다.</li>
+<li>Convolution with a stride<br>a.    convolution연산을 kernel내 몇몇 유닛을 건너띄어 계산량을 줄이는 것.<br>b.    1이상의 stride는 unit stride + down sampling과 같은 결과를 갖는다.</li>
+<li>Zero padding<br>a.    Input  size를 사방으로 wider하게 하는 것<br>b.    큰 size의 Kernel을 거치고 나면 output size가 줄어드는데 층이 deep해질 경우 사이즈가 1로 shrink할 수 있다.<br>c.    3가지 case<br>  ①    Valid convolution<pre><code>i.    Output shrinkage
+</code></pre>  ②    Same convolution <pre><code>i.    Input size와 동일한 크기의 output을 보존한다
+</code></pre>  ③    Full convolution<pre><code>i.    Feature가 center에만 집중된다.
+</code></pre>  ④    Valid와 same 사이 그 어딘가가 적절하다.</li>
+<li>Locally connected layer(unshared convolution)<br>a.    모든 연결이 자기자신의 weight를 가지고 있다.<br>b.    No parameter sharing<br>c.    그렇지만 FC와는 다르다. FC는 모든 모든 edge마다 weight를 가지고 있다.s<br><img src="/image/dlb/dlb_ch9_2.PNG" alt=""><br>d.    Useful when we know that each feature should be a function of a small part of space, but there is no reason to think that the same feature should occur across all of space..?<br>e.    Also useful partial connectivity between channels.<br>  ①    각 output channel은 input channel의 제한된 일부분만 연결되어 있다.<br>  <img src="/image/dlb/dlb_ch9_3.PNG" alt=""><br>f.    Tiled convolution<br>  ①    Paramter sharing에 cycle이 있는 것.(fig 9.16)<br>  <img src="/image/dlb/dlb_ch9_4.PNG" alt=""></li>
+</ol>
+<h2 id="6-Structured-Outputs"><a href="#6-Structured-Outputs" class="headerlink" title="6. Structured Outputs"></a>6. Structured Outputs</h2><ol>
+<li>Classification과 regression이 아닌 high dimensional, structured object의 결과도 만들 수 있다.</li>
+<li>초기 guess값이 다음 이웃 픽셀에 영향을 준다.<br><img src="/image/dlb/dlb_ch9_5.PNG" alt=""></li>
+</ol>
+<h2 id="7-Data-Types"><a href="#7-Data-Types" class="headerlink" title="7. Data Types"></a>7. Data Types</h2><ol>
+<li>Single channel<br>a.    1D: audio waveform<br>b.    2D: audio with fourier transform<br>c.    3D: volumetric data </li>
+<li>Multi channel<br>a.    1D: Skeleton animation data<br>b.    2D: color image data (RGB)<br>c.    3D: color video data (time, width, height)</li>
+</ol>
+<h2 id="8-Efficient-Convolution-Algorithms"><a href="#8-Efficient-Convolution-Algorithms" class="headerlink" title="8. Efficient Convolution Algorithms"></a>8. Efficient Convolution Algorithms</h2><ol>
+<li>Kernal이 separable하다?<br>a.    D dim kernal can be expressed as the outer product of d vectors, one vector per dim</li>
+<li>w: kernal, d:dim</li>
+<li>Naive convolution = O(w^d)</li>
+<li>Separable convolution = O(wd)</li>
+</ol>
+<h2 id="9-Random-or-Unsupervised-Features"><a href="#9-Random-or-Unsupervised-Features" class="headerlink" title="9. Random or Unsupervised Features"></a>9. Random or Unsupervised Features</h2><ol>
+<li>CNN에서 가장 expensive한 부분은 feature를 학습하는 과정이다.</li>
+<li>그래서 CNN의 training cost를 줄이는 방법중의 하나는 gd로 학습되지 않은 feature를 사용하는 것이다. </li>
+<li>Supervised learning을 통하지 않고 feature를 얻는 방법 3가지<br>a.    Random initialization<br>b.    Design by hand<br>c.    Unsupervised criterion</li>
+</ol>
+<h2 id="10-The-Neuroscientific-Basis-for-Convolutional-Networks"><a href="#10-The-Neuroscientific-Basis-for-Convolutional-Networks" class="headerlink" title="10. The Neuroscientific Basis for Convolutional Networks"></a>10. The Neuroscientific Basis for Convolutional Networks</h2><h2 id="11-Convolutional-Networks-and-the-History-of-Deep-Learning"><a href="#11-Convolutional-Networks-and-the-History-of-Deep-Learning" class="headerlink" title="11. Convolutional Networks and the History of Deep Learning"></a>11. Convolutional Networks and the History of Deep Learning</h2>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/DLB/" rel="tag"># DLB</a>
+          
+            <a href="/tags/CNN/" rel="tag"># CNN</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/13/dlb-ch7/" rel="next" title="Ch7_Regularization">
+                <i class="fa fa-chevron-left"></i> Ch7_Regularization
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">y0ngh00n</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#intro"><span class="nav-number">1.</span> <span class="nav-text">intro</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-The-Convolution-Operation"><span class="nav-number"></span> <span class="nav-text">1. The Convolution Operation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Motivation"><span class="nav-number"></span> <span class="nav-text">2. Motivation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Pooling"><span class="nav-number"></span> <span class="nav-text">3. Pooling</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Convolution-and-Pooling-as-an-Infinitely-Strong-Prior"><span class="nav-number"></span> <span class="nav-text">4. Convolution and Pooling as an Infinitely Strong Prior</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Variants-of-the-Basic-Convolution-Function"><span class="nav-number"></span> <span class="nav-text">5. Variants of the Basic Convolution Function</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-Structured-Outputs"><span class="nav-number"></span> <span class="nav-text">6. Structured Outputs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-Data-Types"><span class="nav-number"></span> <span class="nav-text">7. Data Types</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-Efficient-Convolution-Algorithms"><span class="nav-number"></span> <span class="nav-text">8. Efficient Convolution Algorithms</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-Random-or-Unsupervised-Features"><span class="nav-number"></span> <span class="nav-text">9. Random or Unsupervised Features</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-The-Neuroscientific-Basis-for-Convolutional-Networks"><span class="nav-number"></span> <span class="nav-text">10. The Neuroscientific Basis for Convolutional Networks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-Convolutional-Networks-and-the-History-of-Deep-Learning"><span class="nav-number"></span> <span class="nav-text">11. Convolutional Networks and the History of Deep Learning</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">y0ngh00n</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
